@@ -9,6 +9,10 @@
     <p>
         {{ prod.description }} 
     </p>
+
+    {% if user.is_authenticated %}
+            <p>AJAJAJAJAJAJAJJA</p>
+    {% endif %}
    
   {% endfor %}
 {% endblock %}

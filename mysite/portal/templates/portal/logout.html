@@ -1,0 +1,14 @@
+{% extends "portal/base.html" %}
+
+{% block content %}
+<div class="container" id="logout__screen">
+    <div class="starter-template"> 
+        <h1 class="pt-5">Wylogowano</h1>
+        <div>
+            <div>
+                <a href="{% url 'portal:login' %}">Zaloguj się ponownie!</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

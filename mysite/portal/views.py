@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import *
 # Create your views here.
 
-def offer_list(request):
+def list(request):
     products = Product.objects.all()
-    return render(request, 'portal/list.html', {'products': products})
+    context = {'products': products}
+    return render(request, 'portal/list.html', context)
