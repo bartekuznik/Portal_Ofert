@@ -35,7 +35,7 @@ class Product(models.Model):
     sub_category = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
-    image = models.ImageField(upload_to='products/%Y/%m/%d')
+    image = models.ImageField(upload_to='products/%Y/%m/%d', blank=True)
     description = models.TextField(blank = True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     created = models.DateField(auto_now_add=True)
