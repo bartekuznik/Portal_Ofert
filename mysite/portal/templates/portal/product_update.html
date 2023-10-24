@@ -1,0 +1,16 @@
+{% extends "portal/base.html" %}
+
+
+{% block content %}
+<form class="form-signin" method="POST">
+    {% csrf_token %}
+    <div >
+        <h2 >Aktualizuj swoją ofertę</h2>
+    </div>
+    {{ form }}
+    <button  class="btn" type="submit">Edytuj produkt!</button>
+</form>
+
+
+
+{% endblock content %}
