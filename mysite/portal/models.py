@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.fields.files import ImageField
+from django.urls import reverse
 
 # Create your models here.
 
@@ -44,6 +45,9 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse('portal:product-detail', kwargs={'pk':self.pk})
     
 
 class ProductRevirev(models.Model):

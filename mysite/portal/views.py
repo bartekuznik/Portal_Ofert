@@ -1,6 +1,6 @@
 from django.forms.models import BaseModelForm
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from .models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import CreateView, UpdateView, DeleteView
@@ -31,7 +31,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
     
-class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin,CreateView):
+class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Product
     template_name ='portal/product_update.html'
     fields = ['sub_category', 'name', 'image', 'description', 'price', 'quantity', 'available']
@@ -57,3 +57,7 @@ class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         else:
             return False
+
+def product_detail(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    return render(request, 'portal/detail.html', {'product': product})
