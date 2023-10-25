@@ -1,17 +1,16 @@
-from django.forms.models import BaseModelForm
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from .models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from .forms import *
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 def list(request):
     products = Product.objects.all()
-    context = {'products': products}
-    return render(request, 'portal/list.html', context)
+    return render(request, 'portal/list.html', {'products': products})
 
 def register(request):
     if request.method == "POST":
@@ -61,3 +60,16 @@ class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk)
     return render(request, 'portal/detail.html', {'product': product})
+
+@login_required
+def user_edit_profile(request):
+    if request.method == 'POST':
+        user_form = UserEditForm(instance=request.user,data=request.POST)
+        profile_form = ProfileEditForm(instance=request.user.profile,data=request.POST)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+    else:
+        user_form = UserEditForm(instance=request.user)
+        profile_form = ProfileEditForm(instance=request.user.profile)
+    return render(request,'portal/profile.html',{'user_form': user_form,'profile_form': profile_form})
