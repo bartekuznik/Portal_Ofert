@@ -5,4 +5,23 @@
 {% block content %}
 {{ product.name }}
 Dostępna ilość: {{ product.quantity }}
+
+<form class="form-signin" method="POST">
+    <div>
+        {% csrf_token %}
+        <div>
+            <h2 class="pt-5">Oceń produkt</h2>
+        </div>
+        {{ review_form }}
+        <button  class="btn" type="submit">Dodaj ocenę!</button>
+    </div>
+</form>
+
+{% for review in reviews %}
+    {{ review.user }}
+    {{ review.description }}
+    {{ review.reviev_choice }}
+{% endfor %}
+
+
 {% endblock %}

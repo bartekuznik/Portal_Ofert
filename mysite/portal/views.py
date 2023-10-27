@@ -20,7 +20,7 @@ def register(request):
             Profile.objects.create(user=new_user)
             return redirect('portal:login')
     else:
-        form = UserCreationForm()
+        form = UserCreationForm(request.POST)
     return render(request, 'portal/register.html', {'form': form})
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
@@ -59,7 +59,19 @@ class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk)
-    return render(request, 'portal/detail.html', {'product': product})
+    reviews = ProductRevirev.objects.filter(product__id = pk)
+
+    if request.method == 'POST':
+        review_form = ProductReviewForm(request.POST)
+        if review_form.is_valid():
+            new_review = review_form.save(commit=False)
+            new_review.user = request.user
+            new_review.product = product
+            new_review.save()
+    else:
+        review_form = ProductReviewForm(request.POST)
+
+    return render(request, 'portal/detail.html', {'product': product, 'reviews':reviews, 'review_form':review_form})
 
 @login_required
 def user_edit_profile(request):

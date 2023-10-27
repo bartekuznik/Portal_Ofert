@@ -21,3 +21,12 @@ class ProfileEditForm(forms.ModelForm):
             'description': 'Opis profilu',
             'image': 'Zdjęcie profilowe'
         }
+
+class ProductReviewForm(forms.ModelForm):
+    class Meta:
+        model = ProductRevirev
+        fields = ('description', 'reviev_choice')
+        labels = {
+            'description': 'Opinia o produkcie',
+            'reviev_choice': 'Ocena produktu'
+        }

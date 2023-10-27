@@ -54,7 +54,7 @@ class ProductRevirev(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField(blank=True)
-    reviev_choice = models.IntegerField(choices=RATE_CHOICE, default='5')
+    reviev_choice = models.CharField(choices=RATE_CHOICE, default='5', max_length=50)
 
     def __str__(self):
         return self.reviev_choice
