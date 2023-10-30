@@ -1,0 +1,19 @@
+{% extends "portal/base.html" %}
+
+
+{% block content %}
+
+{{ user.email }}
+{{ user.profile.description }}
+
+{% for prod in products %}
+    <h2>
+        {{ prod.name }}
+      </a>
+    </h2>
+    <p>
+        {{ prod.description }} 
+    </p>
+{% endfor %}
+  
+{% endblock %}

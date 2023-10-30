@@ -59,7 +59,7 @@ class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk)
-    reviews = ProductRevirev.objects.filter(product__id = pk)
+    reviews = ProductRevirev.objects.filter(product__id = pk) # lub: (product = product)
 
     if request.method == 'POST':
         review_form = ProductReviewForm(request.POST)
@@ -74,6 +74,11 @@ def product_detail(request, pk):
     return render(request, 'portal/detail.html', {'product': product, 'reviews':reviews, 'review_form':review_form})
 
 @login_required
+def user_detail_view(request):
+    products = Product.objects.filter(author = request.user)
+    return render(request, 'portal/profile_detail.html', {'products': products})
+
+@login_required
 def user_edit_profile(request):
     if request.method == 'POST':
         user_form = UserEditForm(instance=request.user,data=request.POST)
@@ -84,4 +89,4 @@ def user_edit_profile(request):
     else:
         user_form = UserEditForm(instance=request.user)
         profile_form = ProfileEditForm(instance=request.user.profile)
-    return render(request,'portal/profile.html',{'user_form': user_form,'profile_form': profile_form})
+    return render(request,'portal/profile_detail_update.html', {'user_form': user_form,'profile_form': profile_form})
